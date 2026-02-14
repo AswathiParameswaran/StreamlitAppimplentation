@@ -17,7 +17,7 @@ st.set_page_config(
 # -------------------------------
 # Title & Description
 # -------------------------------
-st.title("❤️ Heart Disease Prediction System")
+st.title("Heart Disease Prediction System")
 
 st.markdown("""
 This application predicts the presence of heart disease using **six Machine Learning models**.

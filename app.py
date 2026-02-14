@@ -99,7 +99,7 @@ if uploaded_file:
     # Load model, scaler, and columns
     model = joblib.load(f"model/{model_choice}.pkl")
     scaler = joblib.load("model/scaler.pkl")
-    train_columns = joblib.load("models/columns.pkl")
+    train_columns = joblib.load("model/columns.pkl")
 
     # Split features & target
     X = data.drop("target", axis=1)

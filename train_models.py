@@ -17,7 +17,7 @@ from xgboost import XGBClassifier
 import joblib
 
 # Load dataset
-data = pd.read_csv("/content/heart.csv")
+data = pd.read_csv("heart.csv")
 
 X = data.drop("target", axis=1)
 y = data["target"]

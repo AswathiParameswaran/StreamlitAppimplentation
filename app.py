@@ -20,23 +20,28 @@ if uploaded_file:
     st.write("Uploaded Data Preview")
     st.dataframe(data.head())
 
-    # ✅ Load model from correct folder
-    model = joblib.load(f"model/{model_choice}.pkl")
+    # Load model
+    model = joblib.load(f"models/{model_choice}.pkl")
 
-    # ✅ Load scaler
-    scaler = joblib.load("model/scaler.pkl")
+    # Load scaler and columns
+    scaler = joblib.load("models/scaler.pkl")
+    train_columns = joblib.load("models/columns.pkl")
 
-    # Separate features and target
     X = data.drop("target", axis=1)
     y = data["target"]
 
-    # ✅ Apply same encoding used during training
+    # Apply same encoding
     X = pd.get_dummies(X, drop_first=True)
 
-    # ✅ Align columns with training data
-    X = X.reindex(columns=model.feature_names_in_, fill_value=0)
+    # Add missing columns
+    for col in train_columns:
+        if col not in X.columns:
+            X[col] = 0
 
-    # ✅ Apply scaling
+    # Ensure same column order
+    X = X[train_columns]
+
+    # Scale
     X = scaler.transform(X)
 
     # Predict
@@ -44,7 +49,7 @@ if uploaded_file:
 
     st.write("### Classification Report")
     report = classification_report(y, predictions, output_dict=True)
-    st.dataframe(pd.DataFrame(report).transpose())
+    st.write(pd.DataFrame(report).transpose())
 
     st.write("### Confusion Matrix")
     cm = confusion_matrix(y, predictions)
@@ -52,3 +57,4 @@ if uploaded_file:
     fig, ax = plt.subplots()
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
     st.pyplot(fig)
+

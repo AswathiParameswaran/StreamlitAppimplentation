@@ -21,11 +21,11 @@ if uploaded_file:
     st.dataframe(data.head())
 
     # Load model
-    model = joblib.load(f"models/{model_choice}.pkl")
+    model = joblib.load(f"model/{model_choice}.pkl")
 
     # Load scaler and columns
-    scaler = joblib.load("models/scaler.pkl")
-    train_columns = joblib.load("models/columns.pkl")
+    scaler = joblib.load("model/scaler.pkl")
+    train_columns = joblib.load("model/columns.pkl")
 
     X = data.drop("target", axis=1)
     y = data["target"]

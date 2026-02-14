@@ -21,10 +21,10 @@ if uploaded_file:
     st.dataframe(data.head())
 
     # ✅ Load model from correct folder
-    model = joblib.load(f"models/{model_choice}.pkl")
+    model = joblib.load(f"model/{model_choice}.pkl")
 
     # ✅ Load scaler
-    scaler = joblib.load("models/scaler.pkl")
+    scaler = joblib.load("model/scaler.pkl")
 
     # Separate features and target
     X = data.drop("target", axis=1)

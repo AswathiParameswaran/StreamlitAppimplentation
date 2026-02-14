@@ -20,16 +20,31 @@ if uploaded_file:
     st.write("Uploaded Data Preview")
     st.dataframe(data.head())
 
-    model = joblib.load(f"model/{model_choice}.pkl")
+    # ✅ Load model from correct folder
+    model = joblib.load(f"models/{model_choice}.pkl")
 
+    # ✅ Load scaler
+    scaler = joblib.load("models/scaler.pkl")
+
+    # Separate features and target
     X = data.drop("target", axis=1)
     y = data["target"]
 
+    # ✅ Apply same encoding used during training
+    X = pd.get_dummies(X, drop_first=True)
+
+    # ✅ Align columns with training data
+    X = X.reindex(columns=model.feature_names_in_, fill_value=0)
+
+    # ✅ Apply scaling
+    X = scaler.transform(X)
+
+    # Predict
     predictions = model.predict(X)
 
     st.write("### Classification Report")
     report = classification_report(y, predictions, output_dict=True)
-    st.write(pd.DataFrame(report).transpose())
+    st.dataframe(pd.DataFrame(report).transpose())
 
     st.write("### Confusion Matrix")
     cm = confusion_matrix(y, predictions)

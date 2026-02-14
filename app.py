@@ -55,7 +55,7 @@ Evaluation Metrics Used:
 st.subheader("📊 Model Performance Comparison")
 
 try:
-    results_df = pd.read_csv("models/model_results.csv")
+    results_df = pd.read_csv("model/model_results.csv")
     st.dataframe(results_df)
 except:
     st.warning("Model comparison file not found.")
